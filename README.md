@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sonar Studio
 
-## Getting Started
+Production website for Sonar Studio: an AI-search-first web studio serving businesses in the UK, Ireland, Cyprus and beyond.
 
-First, run the development server:
+## Local setup
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The site runs at `http://localhost:3000` by default.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `RESEND_API_KEY` — Resend API key for the enquiry form
+- `RESEND_FROM` — verified sender address
+- `CONTACT_TO` — destination for enquiries
+- `NEXT_PUBLIC_SITE_URL` — canonical production URL
+- `NEXT_PUBLIC_FOUNDER_NAME` — public founder name for structured data
+- `NEXT_PUBLIC_INSTAGRAM_URL` and `NEXT_PUBLIC_LINKEDIN_URL` — optional social links and structured data
 
-## Learn More
+The contact API validates all input with Zod. Without a Resend key, it returns a controlled service-unavailable response instead of pretending the submission succeeded.
 
-To learn more about Next.js, take a look at the following resources:
+## Owner-supplied assets
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The experience is complete with purposeful fallbacks. Add the final assets at these exact paths to activate the richer visuals without changing components:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `public/visuals/sonar-signal/Sonar_Signal_Animation_dc.html`
+- `public/models/sonar-transducer_glb.glb`
+- final proof screenshots in `public/results/`
+- final logo files in `public/brand/`
 
-## Deploy on Vercel
+The WebGL model and interactive hero load only on capable desktop devices, respect reduced-motion and data-saver preferences, pause offscreen, and clean up their render loops.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Commands
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run lint
+npm run build
+npm run start
+```
+
+Product requirements and implementation decisions live in `PRODUCT.md` and `DESIGN.md`.

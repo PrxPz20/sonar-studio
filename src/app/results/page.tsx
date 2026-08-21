@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata("Proof beats promises", "A real A
 
 export default function ResultsPage() {
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "Results", path: "/results" }])} />
       <PageHeader title="Proof beats promises." actions={<ButtonLink href="/contact">Get results like these</ButtonLink>}>
         <p>Anyone can claim they understand AI search. Here's a real business, a real rebuild, and the screenshots to show what changed.</p>

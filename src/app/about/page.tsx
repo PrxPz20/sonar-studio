@@ -9,7 +9,7 @@ export const metadata: Metadata = pageMetadata("One specialist. Your whole proje
 export default function AboutPage() {
   const points = ["You always talk to the person doing the work", "Lower overhead means a fairer price for the same quality", "Decisions in minutes, not in meetings", "A specialist focus on AI search, not a menu of everything"];
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])} />
       <PageHeader title="One specialist. Your whole project." actions={<><ButtonLink href="/contact">Work with me</ButtonLink><ButtonLink href="/results" secondary>See the results</ButtonLink></>}>
         <p>Sonar Studio is a solo studio. The person you speak to is the person who designs your website, writes the code, and makes sure AI can find it. No hand-offs, no account managers, no markup.</p>

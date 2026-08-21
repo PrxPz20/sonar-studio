@@ -64,7 +64,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (!article || !content) notFound();
   const url = `${site.url}/insights/${slug}`;
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "Insights", path: "/insights" }, { name: article.title, path: `/insights/${slug}` }])} />
       <JsonLd data={faqSchema(content.faqs)} />
       <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.description, mainEntityOfPage: url, author: { "@id": `${site.url}/#organization` }, publisher: { "@id": `${site.url}/#organization` } }} />

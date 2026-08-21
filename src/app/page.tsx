@@ -18,7 +18,7 @@ export const metadata: Metadata = pageMetadata(
 
 export default function Home() {
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={faqSchema(homeFaqs)} />
       <section className="hero">
         <HeroSignal />
@@ -28,7 +28,6 @@ export default function Home() {
             <p className="hero-copy">We build websites engineered to be recommended by ChatGPT, Google and every AI engine your customers now use to decide who to trust.</p>
             <div className="button-row"><ButtonLink href="/contact">Get a free teardown</ButtonLink><ButtonLink href="/results" secondary>See the proof</ButtonLink></div>
           </div>
-          <p className="hero-aside">Signal sent<br />Business detected<br />Recommendation returned</p>
         </div>
       </section>
 

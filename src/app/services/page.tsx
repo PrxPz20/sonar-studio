@@ -12,7 +12,7 @@ export const metadata: Metadata = pageMetadata("Websites built to be recommended
 
 export default function ServicesPage() {
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])} />
       <JsonLd data={faqSchema(serviceFaqs)} />
       <PageHeader title="Websites built to be recommended." actions={<><ButtonLink href="/contact">Start your project</ButtonLink><ButtonLink href="/contact" secondary>Get a free teardown</ButtonLink></>}>

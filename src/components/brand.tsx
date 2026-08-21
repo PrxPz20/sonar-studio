@@ -1,11 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
 
-export function Brand({ light = true }: { light?: boolean }) {
+export function Brand() {
   return (
-    <Link href="/" className={`brand ${light ? "brand-light" : "brand-dark"}`} aria-label="Sonar Studio home">
-      <span className="brand-pulse" aria-hidden="true" />
-      <span>SONAR</span>
-      <span className="brand-studio">STUDIO</span>
+    <Link href="/" className="brand" aria-label="Sonar Studio home">
+      <Image
+        className="brand-image"
+        src="/brand/sonar-wordmark-white.svg"
+        alt=""
+        width={272}
+        height={89}
+        unoptimized
+      />
     </Link>
   );
 }

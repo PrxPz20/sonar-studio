@@ -10,7 +10,7 @@ export const metadata: Metadata = pageMetadata("How businesses get found in the 
 
 export default function InsightsPage() {
   return (
-    <main id="main-content">
+    <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "Insights", path: "/insights" }])} />
       <PageHeader title="How businesses get found in the age of AI." actions={<ButtonLink href="/contact">Get a free teardown</ButtonLink>}>
         <p>Teardowns, guides and plain-English breakdowns of how AI engines decide who to recommend — and what you can do about it.</p>

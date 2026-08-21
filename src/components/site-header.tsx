@@ -18,7 +18,6 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
-      <a className="skip-link" href="#main-content">Skip to content</a>
       <div className="header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary navigation">

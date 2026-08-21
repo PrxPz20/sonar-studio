@@ -61,7 +61,7 @@ export default function Home() {
             {tiers.map((tier) => (
               <article className={`tier-row ${tier.recommended ? "recommended" : ""}`} key={tier.name}>
                 <div><p className="tier-name">{tier.name}</p>{tier.recommended && <span className="recommended-tag">the recommended option — most businesses choose this</span>}</div>
-                <p className="tier-outcome">{tier.outcome}.</p><p className="tier-summary">{tier.summary}</p><Link className="text-link" href="/contact">Start your project →</Link>
+                <p className="tier-outcome">{tier.outcome}.</p><p className="tier-summary">{tier.summary}</p><Link className="text-link" href={`/contact?tier=${tier.name.toLowerCase()}`}>Start your project →</Link>
               </article>
             ))}
           </div>
@@ -71,9 +71,9 @@ export default function Home() {
 
       <section className="section-deep section-pad">
         <div className="shell process-grid">
+          <h2 className="process-title">Three steps. No jargon.</h2>
           <TransducerStage />
           <div className="process-copy">
-            <h2>Three steps. No jargon.</h2>
             <div className="steps">
               <div className="step"><span className="step-number">01</span><div><h3>Free teardown.</h3><p>I record a short video showing exactly where your business is invisible, who is being recommended instead of you, and what it's costing you.</p></div></div>
               <div className="step"><span className="step-number">02</span><div><h3>Build and optimise.</h3><p>I design, build and engineer your website so that search engines and AI can read it, trust it and recommend it.</p></div></div>

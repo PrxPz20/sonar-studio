@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         `Name: ${data.name}`, `Business: ${data.businessName}`, `Email: ${data.email}`,
         `Phone: ${data.phone || "Not supplied"}`, `Location: ${data.city}, ${data.country}`,
         `Business type: ${data.businessType}`, `Website: ${data.website || "Not supplied"}`,
-        `Budget: ${data.budget}`, "", "What they need:", data.need,
+        `Budget: ${data.budget}`, `Selected scope: ${data.tier || "Not selected"}`, "", "What they need:", data.need,
       ].join("\n"),
     });
     if (result.error) throw result.error;

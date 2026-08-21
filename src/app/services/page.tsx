@@ -29,7 +29,7 @@ export default function ServicesPage() {
                 <div><h3>{tier.name} · {tier.outcome}</h3>{tier.recommended && <span className="recommended-tag">Recommended</span>}</div>
                 <p>{tier.audience}</p>
                 <ul>{tier.items.map((item) => <li key={item}>{item}</li>)}</ul>
-                <ButtonLink href="/contact" secondary={!tier.recommended}>Enquire</ButtonLink>
+                <ButtonLink href={`/contact?tier=${tier.name.toLowerCase()}`} secondary={!tier.recommended}>Enquire</ButtonLink>
               </article>
             ))}
           </div>

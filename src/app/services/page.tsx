@@ -37,7 +37,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="content-section section-deep">
+      <section className="content-section content-section-compact section-deep">
         <div className="shell">
           <h2 className="content-heading">Your website shouldn't stand still.</h2>
           <p className="content-lead">Search and AI change every single month. Competitors publish, engines update, and a site that was visible in January can be invisible by June. These plans keep that from happening.</p>
@@ -48,7 +48,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="content-section section-dark">
+      <section className="content-section content-section-compact section-dark">
         <div className="shell difference-grid">
           <div><h2 className="content-heading">Most websites are built to look nice. Yours is built to be found.</h2><p className="content-lead">Good design is the price of entry. What actually brings you customers is being the answer when someone searches, or asks an AI who to trust. Every Sonar website is structured so that Google and AI engines can read it, understand it, and recommend it — using clean structured data, answer-ready content, and the technical signals most designers never touch.</p><ButtonLink href="/contact">Start your project</ButtonLink></div>
           <ul className="point-list"><li>AI-readable structure and schema markup</li><li>Answer-first content, written the way people actually ask</li><li>Fast, technically clean, mobile-first</li><li>Local signals so you win &quot;near me&quot; searches</li></ul>

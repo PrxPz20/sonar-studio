@@ -40,8 +40,8 @@ class Component extends DCLogic {
         self.renderP = self.targetP;
         if (self.frame) self.frame(performance.now() / 1000); // render now (don't wait on rAF)
       },
-      play() { self.manual = false; },
-      pause() { self.manual = true; },
+      play() { self.manual = false; self.frozenTime = null; },
+      pause() { self.manual = true; self.frozenTime = performance.now() / 1000; },
       get progress() { return self.renderP; }
     };
     this.tryInit();
@@ -61,7 +61,7 @@ class Component extends DCLogic {
       atmosphere: p.atmosphere != null ? p.atmosphere : 1,
       beamGlow: p.beamGlow != null ? p.beamGlow : 0.32,
       autoPlay: p.autoPlay != null ? p.autoPlay : true,
-      duration: p.duration != null ? p.duration : 10,
+      duration: p.duration != null ? p.duration * 0.9 : 9,
       progress: p.progress != null ? p.progress : null,
     };
   }
@@ -254,7 +254,7 @@ class Component extends DCLogic {
     this.last = performance.now();
     this.frame = (nowSec) => {
       this.renderP += (this.targetP - this.renderP) * (this.manual ? 1 : 0.14);
-      this.applyProgress(this.renderP, nowSec);
+      this.applyProgress(this.renderP, this.frozenTime ?? nowSec);
       this.renderer.render(this.scene, this.camera);
     };
     const loop = () => {
@@ -289,7 +289,7 @@ class Component extends DCLogic {
     const sigCol = new THREE.Color(cfg.signal);
 
     const beamT = s(0.05, 0.62, p);
-    const camT = s(0.12, 0.9, p); const camE = camT * camT * (3 - 2 * camT);
+    const camT = s(0.07, 0.9, p); const camE = camT * camT * (3 - 2 * camT);
     const blipI = s(0.42, 0.6, p);
     const assemble = s(0.56, 0.9, p);
 

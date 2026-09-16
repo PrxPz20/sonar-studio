@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AIFlip } from "@/components/ai-flip";
 import { ButtonLink } from "@/components/button-link";
 import { ClosingCta } from "@/components/closing-cta";
 import { Faq } from "@/components/faq";
@@ -24,7 +25,7 @@ export default function Home() {
         <HeroSignal />
         <div className="hero-content">
           <div>
-            <h1>Get found when your customers ask AI.</h1>
+            <h1>Get found when your customers ask <AIFlip /></h1>
             <p className="hero-copy">We build websites engineered to be recommended by ChatGPT, Google and every AI engine your customers now use to decide who to trust.</p>
             <div className="button-row"><ButtonLink href="/contact">Get a free teardown</ButtonLink><ButtonLink href="/results" secondary>See the proof</ButtonLink></div>
           </div>

@@ -28,9 +28,9 @@ export async function POST(request: Request) {
       subject: `New teardown request from ${data.businessName}`,
       text: [
         `Name: ${data.name}`, `Business: ${data.businessName}`, `Email: ${data.email}`,
-        `Phone: ${data.phone || "Not supplied"}`, `Location: ${data.city}, ${data.country}`,
-        `Business type: ${data.businessType}`, `Website: ${data.website || "Not supplied"}`,
-        `Budget: ${data.budget}`, `Selected scope: ${data.tier || "Not selected"}`, "", "What they need:", data.need,
+        `Phone: ${data.phone || "Not supplied"}`, `Location: ${[data.city, data.country].filter(Boolean).join(", ") || "Not supplied"}`,
+        `Business type: ${data.businessType || "Not supplied"}`, `Website: ${data.website || "Not supplied"}`,
+        `Budget: ${data.budget || "Not supplied"}`, `Selected scope: ${data.tier || "Not selected"}`, "", "What they need:", data.need,
       ].join("\n"),
     });
     if (result.error) throw result.error;

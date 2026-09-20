@@ -140,18 +140,24 @@ export const articles = [
     title: "How businesses get recommended by ChatGPT",
     description:
       "What AI engines actually read on a website, and why most sites give them nothing to work with.",
+    publishedAt: "2026-08-20",
+    updatedAt: "2026-08-21",
   },
   {
     slug: "why-your-website-is-invisible-to-ai",
     title: "Why your website is invisible to AI",
     description:
       "The five most common reasons an AI can't confidently name your business, and how each one is fixed.",
+    publishedAt: "2026-08-20",
+    updatedAt: "2026-08-21",
   },
   {
     slug: "seo-geo-aeo-explained",
     title: "SEO, GEO and AEO explained",
     description:
       "Three acronyms, one goal: being the answer. What each means in plain English, and why they now work together.",
+    publishedAt: "2026-08-20",
+    updatedAt: "2026-08-21",
   },
 ] as const;
 

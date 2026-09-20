@@ -2,7 +2,7 @@
 
 import { FormEvent, type FocusEvent, useState } from "react";
 import Link from "next/link";
-import { contactSchema, type ContactTier } from "@/lib/contact-schema";
+import { contactSchema, type ContactIntent, type ContactTier } from "@/lib/contact-schema";
 
 type Errors = Record<string, string>;
 
@@ -22,11 +22,12 @@ function formPayload(form: HTMLFormElement, startedAt: number) {
     businessType: String(data.get("businessType") || ""), need: String(data.get("need") || ""),
     website: String(data.get("website") || ""), budget: String(data.get("budget") || ""),
     tier: String(data.get("tier") || "") || undefined,
+    intent: String(data.get("intent") || "") || undefined,
     companyWebsite: String(data.get("companyWebsite") || ""), startedAt,
   };
 }
 
-export function ContactForm({ selectedTier }: { selectedTier?: ContactTier }) {
+export function ContactForm({ selectedTier, selectedIntent }: { selectedTier?: ContactTier; selectedIntent?: ContactIntent }) {
   const [startedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -91,11 +92,12 @@ export function ContactForm({ selectedTier }: { selectedTier?: ContactTier }) {
         </div>
       ) : (
         <form className="contact-form" noValidate onSubmit={submit} aria-busy={status === "sending"}>
-          {selectedTier && (
+          {(selectedTier || selectedIntent) && (
             <div className="selected-tier">
-              <div><span>Selected scope</span><strong>{selectedTier}</strong></div>
-              <Link href="/services">Change scope</Link>
-              <input type="hidden" name="tier" value={selectedTier} />
+              <div><span>Your request</span><strong>{[selectedIntent, selectedTier && `${selectedTier} scope`].filter(Boolean).join(" · ")}</strong></div>
+              <Link href="/services">Change selection</Link>
+              {selectedTier && <input type="hidden" name="tier" value={selectedTier} />}
+              {selectedIntent && <input type="hidden" name="intent" value={selectedIntent} />}
             </div>
           )}
           <div className="form-grid">
@@ -113,9 +115,9 @@ export function ContactForm({ selectedTier }: { selectedTier?: ContactTier }) {
           <label className="honeypot" aria-hidden="true">Company website<input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
           {status === "error" && <p className="form-error">Something went wrong. Email me directly at <a href="mailto:hello@sonarstudio.net">hello@sonarstudio.net</a> and I'll pick it up straight away.</p>}
           <button className="submit-button" type="submit" disabled={status === "sending"}>
-            <span>{status === "sending" ? "Sending your details" : "Send and get my teardown"}</span><span aria-hidden="true">→</span>
+            <span>{status === "sending" ? "Sending your details" : selectedIntent === "Project enquiry" ? "Send project enquiry" : "Send and get my teardown"}</span><span aria-hidden="true">→</span>
           </button>
-          <p className="form-privacy">No sales calls. No spam. Your details stay with me.</p>
+          <p className="form-privacy">Your details are only used to respond to your enquiry. <Link href="/privacy">Privacy</Link>.</p>
         </form>
       )}
     </div>

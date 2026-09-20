@@ -63,14 +63,17 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const content = articleContent[slug];
   if (!article || !content) notFound();
   const url = `${site.url}/insights/${slug}`;
+  const updated = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${article.updatedAt}T00:00:00Z`));
+  const readingMinutes = Math.max(1, Math.ceil(content.sections.flatMap((section) => section.paragraphs).join(" ").split(/\s+/).length / 200));
   return (
     <main>
       <JsonLd data={breadcrumbs([{ name: "Home", path: "/" }, { name: "Insights", path: "/insights" }, { name: article.title, path: `/insights/${slug}` }])} />
       <JsonLd data={faqSchema(content.faqs)} />
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.description, mainEntityOfPage: url, author: { "@id": `${site.url}/#organization` }, publisher: { "@id": `${site.url}/#organization` } }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "Article", headline: article.title, description: article.description, datePublished: article.publishedAt, dateModified: article.updatedAt, mainEntityOfPage: url, author: { "@id": `${site.url}/#organization` }, publisher: { "@id": `${site.url}/#organization` } }} />
       <article className="article-shell">
         <nav className="breadcrumb" aria-label="Breadcrumb"><Link href="/">Home</Link> / <Link href="/insights">Insights</Link> / {article.title}</nav>
         <h1>{article.title}</h1><p className="article-dek">{article.description}</p>
+        <div className="article-meta" aria-label="Article information"><span>By Sonar Studio</span><time dateTime={article.updatedAt}>Updated {updated}</time><span>{readingMinutes} min read</span></div>
         <div className="article-body">
           {content.sections.map((section) => <section key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</section>)}
           <h2>What should you do next?</h2><p>If you want to see how these principles apply to your current site, <Link href="/contact">request a free teardown</Link>. You can also compare the three <Link href="/services">website scopes</Link> or review the documented <Link href="/results">case study</Link>.</p>

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const proofImages = {
   before: {
@@ -21,6 +21,7 @@ const proofImages = {
 type ProofKey = keyof typeof proofImages;
 
 export function ProofMedia() {
+  const media = useRef<HTMLElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLButtonElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
@@ -35,26 +36,43 @@ export function ProofMedia() {
 
   const activeImage = proofImages[activeProof];
 
+  useEffect(() => {
+    const element = media.current;
+    if (!element || !("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    element.dataset.motion = "ready";
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      element.dataset.motion = "visible";
+      observer.disconnect();
+    }, { threshold: 0.22, rootMargin: "0px 0px -8% 0px" });
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <>
-      <figure className="proof-media">
-        {(Object.keys(proofImages) as ProofKey[]).map((proof) => {
-          const image = proofImages[proof];
-          return (
-            <button
-              className={`proof-shot proof-${proof}`}
-              type="button"
-              aria-haspopup="dialog"
-              aria-label={`View full ${image.label.toLowerCase()} screenshot`}
-              onClick={(event) => openProof(proof, event.currentTarget)}
-              key={proof}
-            >
-              <Image className="proof-image" src={image.src} alt={image.alt} width={image.width} height={2338} sizes="(max-width: 767px) calc(100vw - 32px), 58vw" />
-              <span className="proof-label">{image.label}</span>
-              <span className="proof-view" aria-hidden="true">View full screenshot ↗</span>
-            </button>
-          );
-        })}
+      <figure className="proof-media" ref={media}>
+        <div className="proof-card-track">
+          {(Object.keys(proofImages) as ProofKey[]).map((proof) => {
+            const image = proofImages[proof];
+            return (
+              <button
+                className={`proof-shot proof-${proof}`}
+                type="button"
+                aria-haspopup="dialog"
+                aria-label={`View full ${image.label.toLowerCase()} screenshot`}
+                onClick={(event) => openProof(proof, event.currentTarget)}
+                key={proof}
+              >
+                <Image className="proof-image" src={image.src} alt={image.alt} width={image.width} height={2338} sizes="(max-width: 767px) 82vw, 50vw" />
+                <span className="proof-label">{image.label}</span>
+                <span className="proof-view" aria-hidden="true">View full screenshot ↗</span>
+              </button>
+            );
+          })}
+        </div>
         <figcaption>Before and after. Real screenshots, unedited.</figcaption>
       </figure>
 

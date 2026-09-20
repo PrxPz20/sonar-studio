@@ -25,11 +25,11 @@ export default function ResultsPage() {
               <div className="case-part"><h3>The result.</h3><p>After the rebuild, ChatGPT recommends the garage by name when customers ask for that service in that area. Same business. Same mechanics. A website that finally speaks the language search engines and AI understand.</p></div>
             </div>
           </div>
-          <div style={{ marginTop: 72 }}><ProofMedia /></div>
+          <div style={{ marginTop: 48 }}><ProofMedia /></div>
           <div className="button-row"><ButtonLink href="/contact">Start your project</ButtonLink><ButtonLink href="/services" secondary>See the services</ButtonLink></div>
         </div>
       </section>
-      <section className="content-section section-deep"><div className="shell future-result"><h2 className="content-heading">More results, as they land.</h2><p>Sonar Studio is a new studio, and every project gets documented the same way — honestly, with real screenshots. This is where they'll appear.</p></div></section>
+      <section className="results-note section-deep"><div className="shell future-result"><h2 className="content-heading">More results, as they land.</h2><p>Sonar Studio is a new studio, and every project gets documented the same way — honestly, with real screenshots. This is where they'll appear.</p></div></section>
       <ClosingCta title="Want to be the next result?" body="I'll show you exactly where you stand today, free, in three minutes." secondary="See the services" secondaryHref="/services" />
     </main>
   );

@@ -4,12 +4,14 @@ export function ClosingCta({
   title,
   body,
   primary = "Get my free teardown",
+  primaryHref = "/contact",
   secondary,
   secondaryHref = "/results",
 }: {
   title: string;
   body?: string;
   primary?: string;
+  primaryHref?: string;
   secondary?: string;
   secondaryHref?: string;
 }) {
@@ -22,7 +24,7 @@ export function ClosingCta({
           {body && <p>{body}</p>}
         </div>
         <div className="button-row">
-          <ButtonLink href="/contact">{primary}</ButtonLink>
+          <ButtonLink href={primaryHref}>{primary}</ButtonLink>
           {secondary && <ButtonLink href={secondaryHref} secondary>{secondary}</ButtonLink>}
         </div>
       </div>

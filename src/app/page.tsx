@@ -43,14 +43,8 @@ export default function Home() {
       </section>
 
       <section className="proof-section section-dark">
-        <div className="shell">
-          <div className="proof-intro">
-            <h2>We made AI recommend a real business.</h2>
-            <div>
-              <p>Before the rebuild, this vehicle repair garage didn't appear when people asked ChatGPT to recommend a mechanic for their car. After the rebuild, it does — by name. Same business, same service, same town. A different website.</p>
-              <div className="button-row"><ButtonLink href="/results">See the full case study</ButtonLink><ButtonLink href="/contact" secondary>Get the same for your business</ButtonLink></div>
-            </div>
-          </div>
+        <div className="shell proof-showcase">
+          <h2>We made AI recommend a real business.</h2>
           <ProofMedia />
         </div>
       </section>

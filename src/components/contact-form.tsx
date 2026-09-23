@@ -2,7 +2,7 @@
 
 import { FormEvent, type FocusEvent, useState } from "react";
 import Link from "next/link";
-import { contactSchema, type ContactIntent, type ContactTier } from "@/lib/contact-schema";
+import { contactSchema, type ContactIntent } from "@/lib/contact-schema";
 
 type Errors = Record<string, string>;
 
@@ -10,7 +10,6 @@ const labels: Record<string, string> = {
   name: "Enter your name.", businessName: "Enter your business name.", email: "Enter a valid email address.",
   country: "Choose your country.", city: "Enter your city.", businessType: "Choose your business type.",
   need: "Tell me a little more about what you need.", website: "Enter a website such as yourbusiness.com.",
-  budget: "Choose a budget range.",
 };
 
 function formPayload(form: HTMLFormElement, startedAt: number) {
@@ -20,14 +19,13 @@ function formPayload(form: HTMLFormElement, startedAt: number) {
     email: String(data.get("email") || ""), phone: String(data.get("phone") || ""),
     country: String(data.get("country") || ""), city: String(data.get("city") || ""),
     businessType: String(data.get("businessType") || ""), need: String(data.get("need") || ""),
-    website: String(data.get("website") || ""), budget: String(data.get("budget") || ""),
-    tier: String(data.get("tier") || "") || undefined,
+    website: String(data.get("website") || ""),
     intent: String(data.get("intent") || "") || undefined,
     companyWebsite: String(data.get("companyWebsite") || ""), startedAt,
   };
 }
 
-export function ContactForm({ selectedTier, selectedIntent }: { selectedTier?: ContactTier; selectedIntent?: ContactIntent }) {
+export function ContactForm({ selectedIntent }: { selectedIntent?: ContactIntent }) {
   const [startedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -92,12 +90,11 @@ export function ContactForm({ selectedTier, selectedIntent }: { selectedTier?: C
         </div>
       ) : (
         <form className="contact-form" noValidate onSubmit={submit} aria-busy={status === "sending"}>
-          {(selectedTier || selectedIntent) && (
-            <div className="selected-tier">
-              <div><span>Your request</span><strong>{[selectedIntent, selectedTier && `${selectedTier} scope`].filter(Boolean).join(" · ")}</strong></div>
-              <Link href="/services">Change selection</Link>
-              {selectedTier && <input type="hidden" name="tier" value={selectedTier} />}
-              {selectedIntent && <input type="hidden" name="intent" value={selectedIntent} />}
+          {selectedIntent && (
+            <div className="selected-request">
+              <div><span>Your request</span><strong>{selectedIntent}</strong></div>
+              <Link href="/services">Change request</Link>
+              <input type="hidden" name="intent" value={selectedIntent} />
             </div>
           )}
           <div className="form-grid">
@@ -110,7 +107,6 @@ export function ContactForm({ selectedTier, selectedIntent }: { selectedTier?: C
         <label><span>Business type <b>Optional</b></span><select name="businessType" defaultValue="" {...field("businessType")}><option value="">Select type</option><option>Clinic</option><option>Trades</option><option>Professional services</option><option>Hospitality</option><option>E-commerce</option><option>Other</option></select>{error("businessType")}</label>
         <label className="field-wide"><span>What do you need? <b>Required</b></span><textarea name="need" required rows={6} placeholder="A new website, an optimisation of your current one, or you're not sure yet — tell me in your own words." {...field("need")} />{error("need")}</label>
         <label className="field-wide"><span>Current website url <b>Optional</b></span><input name="website" inputMode="url" placeholder="yourbusiness.com (if you have one)" {...field("website")} />{error("website")}</label>
-        <label className="field-wide"><span>Budget range <b>Optional</b></span><select name="budget" defaultValue="" {...field("budget")}><option value="">Select range</option><option>Under €2,000</option><option>€2,000–3,500</option><option>€3,500–6,000</option><option>€6,000+</option><option>Not sure yet</option></select>{error("budget")}</label>
           </div>
           <label className="honeypot" aria-hidden="true">Company website<input name="companyWebsite" tabIndex={-1} autoComplete="off" /></label>
           {status === "error" && <p className="form-error">Something went wrong. Email me directly at <a href="mailto:hello@sonarstudio.net">hello@sonarstudio.net</a> and I'll pick it up straight away.</p>}

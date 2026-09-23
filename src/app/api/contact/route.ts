@@ -30,8 +30,8 @@ export async function POST(request: Request) {
         `Name: ${data.name}`, `Business: ${data.businessName}`, `Email: ${data.email}`,
         `Phone: ${data.phone || "Not supplied"}`, `Location: ${[data.city, data.country].filter(Boolean).join(", ") || "Not supplied"}`,
         `Business type: ${data.businessType || "Not supplied"}`, `Website: ${data.website || "Not supplied"}`,
-        `Budget: ${data.budget || "Not supplied"}`, `Request: ${data.intent || "Not selected"}`,
-        `Selected scope: ${data.tier || "Not selected"}`, "", "What they need:", data.need,
+        `Request: ${data.intent || "Not selected"}`,
+        "", "What they need:", data.need,
       ].join("\n"),
     });
     if (result.error) throw result.error;

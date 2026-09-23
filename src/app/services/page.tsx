@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ButtonLink } from "@/components/button-link";
 import { ClosingCta } from "@/components/closing-cta";
 import { Faq } from "@/components/faq";
 import { PageHeader } from "@/components/page-header";
-import { serviceFaqs, tiers } from "@/lib/content";
+import { serviceFaqs } from "@/lib/content";
 import { breadcrumbs, faqSchema, JsonLd } from "@/lib/schema";
 import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = pageMetadata("Websites built to be recommended", "AI-search-optimised websites in three scopes, plus ongoing care and growth.", "/services");
+export const metadata: Metadata = pageMetadata("Websites built to be recommended", "AI-search-optimised websites built around what each business actually needs.", "/services");
 
 export default function ServicesPage() {
   return (
@@ -18,35 +17,6 @@ export default function ServicesPage() {
       <PageHeader title="Websites built to be recommended." actions={<><ButtonLink href="/contact?intent=project">Start your project</ButtonLink><ButtonLink href="/contact?intent=teardown" secondary>Get a free teardown</ButtonLink></>}>
         <p>Not just designed — engineered. For AI search, for Google, and for turning the people who find you into customers who contact you.</p>
       </PageHeader>
-
-      <section className="content-section section-dark">
-        <div className="shell">
-          <h2 className="content-heading">Choose your scope.</h2>
-          <p className="content-lead">The same engineering underpins all three. The difference is how far you want to go.</p>
-          <div className="service-tier-grid">
-            {tiers.map((tier) => (
-              <article className={`service-tier ${tier.recommended ? "recommended" : ""}`} key={tier.name}>
-                <div><h3>{tier.name} · {tier.outcome}</h3>{tier.recommended && <span className="recommended-tag">Recommended</span>}</div>
-                <p>{tier.audience}</p>
-                <ul>{tier.items.map((item) => <li key={item}>{item}</li>)}</ul>
-                <ButtonLink href={`/contact?intent=project&tier=${tier.name.toLowerCase()}`} secondary={!tier.recommended}>Enquire</ButtonLink>
-              </article>
-            ))}
-          </div>
-          <Link className="text-link" href="/contact?intent=teardown">Not sure which one? Get a free teardown and I'll tell you →</Link>
-        </div>
-      </section>
-
-      <section className="content-section content-section-compact section-deep">
-        <div className="shell">
-          <h2 className="content-heading">Your website shouldn't stand still.</h2>
-          <p className="content-lead">Search and AI change every single month. Competitors publish, engines update, and a site that was visible in January can be invisible by June. These plans keep that from happening.</p>
-          <div className="plan-grid">
-            <article className="plan-block"><h3>Care plan:</h3><p>Hosting, maintenance, security, backups, small content edits, and keeping your search presence healthy.</p></article>
-            <article className="plan-block"><h3>Growth plan:</h3><p>Everything in Care, plus regular content, ongoing AI-search optimisation, automation monitoring, and a plain-English monthly report.</p><ButtonLink href="/contact?intent=project">Add ongoing growth</ButtonLink></article>
-          </div>
-        </div>
-      </section>
 
       <section className="content-section content-section-compact section-dark">
         <div className="shell difference-grid">

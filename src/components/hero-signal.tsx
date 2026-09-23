@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Particles } from "./ui/particles";
 
 type SignalApi = {
   play(): void;
@@ -21,6 +22,7 @@ export function HeroSignal() {
   const host = useRef<HTMLDivElement>(null);
   const finished = useRef(false);
   const [enabled, setEnabled] = useState(false);
+  const [complete, setComplete] = useState(false);
 
   useEffect(() => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -42,10 +44,14 @@ export function HeroSignal() {
     observer.observe(host.current);
     const onVisibility = () => control(document.hidden ? "pause" : "play");
     document.addEventListener("visibilitychange", onVisibility);
-    const finishTimer = window.setTimeout(() => {
+    const finishWatcher = window.setInterval(() => {
+      const signal = frame.current?.contentWindow?.SonarSignal;
+      if (!signal || signal.progress < 0.995) return;
       finished.current = true;
-      control("pause");
-    }, 12_000);
+      signal.pause();
+      setComplete(true);
+      window.clearInterval(finishWatcher);
+    }, 100);
 
     const api: SignalApi = {
       play: () => control("play"),
@@ -56,7 +62,7 @@ export function HeroSignal() {
     window.SonarHero = api;
     return () => {
       observer.disconnect();
-      window.clearTimeout(finishTimer);
+      window.clearInterval(finishWatcher);
       document.removeEventListener("visibilitychange", onVisibility);
       if (window.SonarHero === api) delete window.SonarHero;
     };
@@ -79,6 +85,7 @@ export function HeroSignal() {
           }}
         />
       )}
+      {complete && <Particles className="hero-finale-particles" density={2.2} />}
     </div>
   );
 }

@@ -2,18 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Brand } from "./brand";
 import { navigation } from "@/lib/content";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   function open() {
     dialogRef.current?.showModal();
+    setMenuOpen(true);
     closeButtonRef.current?.focus();
   }
 
@@ -23,8 +26,25 @@ export function SiteHeader() {
 
   useEffect(() => close(), [pathname]);
 
+  useEffect(() => {
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      setScrolled(window.scrollY > 48);
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? " is-condensed" : ""}`}>
       <div className="header-inner">
         <Brand />
         <nav className="desktop-nav" aria-label="Primary navigation">
@@ -44,13 +64,18 @@ export function SiteHeader() {
           className="menu-button"
           type="button"
           aria-label="Open menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
           onClick={open}
         >
           <span aria-hidden="true" />
           <span aria-hidden="true" />
         </button>
       </div>
-      <dialog className="mobile-menu" ref={dialogRef} onClose={() => menuButtonRef.current?.focus()} onClick={(event) => {
+      <dialog id="mobile-navigation" className="mobile-menu" ref={dialogRef} aria-label="Mobile navigation" onClose={() => {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }} onClick={(event) => {
         if (event.target === dialogRef.current) close();
       }}>
         <div className="mobile-menu-inner">

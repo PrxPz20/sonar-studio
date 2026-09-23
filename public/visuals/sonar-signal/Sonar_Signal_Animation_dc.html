@@ -10,11 +10,11 @@
 <x-dc>
 <helmet>
 <style>
-  html, body { margin:0; padding:0; height:100%; background:#0B1F1C; overflow:hidden; }
+  html, body { margin:0; padding:0; height:100%; background:#000000; overflow:hidden; }
   * { box-sizing:border-box; }
 </style>
 </helmet>
-<div style="position:fixed; inset:0; background:#0B1F1C;">
+<div style="position:fixed; inset:0; background:#000000;">
   <canvas ref="{{ setCanvas }}" style="position:absolute; inset:0; width:100%; height:100%; display:block;"></canvas>
 </div>
 </x-dc>
@@ -170,7 +170,7 @@ class Component extends DCLogic {
     const h = this.canvas.clientHeight || window.innerHeight;
 
     const scene = new THREE.Scene();
-    const INK = 0x0B1F1C;
+    const INK = 0x000000;
     scene.background = new THREE.Color(INK);
     scene.fog = new THREE.FogExp2(INK, 0.0092);
 

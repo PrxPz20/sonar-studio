@@ -1,4 +1,4 @@
-import { homeFaqs, site, tiers, type FaqItem } from "./content";
+import { homeFaqs, site, type FaqItem } from "./content";
 
 const socialProfiles = [
   process.env.NEXT_PUBLIC_INSTAGRAM_URL,
@@ -48,13 +48,6 @@ export const organizationSchema = {
       url: site.url,
       publisher: { "@id": `${site.url}/#organization` },
     },
-    ...tiers.map((tier) => ({
-      "@type": "Service",
-      name: `${tier.name} · ${tier.outcome}`,
-      description: tier.summary,
-      provider: { "@id": `${site.url}/#organization` },
-      areaServed: ["GB", "IE", "CY"],
-    })),
   ],
 };
 

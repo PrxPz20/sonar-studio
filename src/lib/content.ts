@@ -69,11 +69,6 @@ export const serviceFaqs = [
       "You do. The site, the domain and the content are yours. There's no lock-in, and I'll hand over everything if you ever want to move on.",
   },
   {
-    question: "Do I have to take a monthly plan?",
-    answer:
-      "No. The plans exist because search and AI keep moving, and most businesses want that handled. But the website is yours either way.",
-  },
-  {
     question: "Can you work with my existing website?",
     answer:
       "Often yes. If the foundations are sound, optimisation alone can make a real difference. I'll look at it in the teardown and tell you honestly which route makes sense.",
@@ -82,55 +77,6 @@ export const serviceFaqs = [
     question: "How do payments work?",
     answer:
       "A deposit to start, the balance on launch. Invoices in euros or pounds. Everything agreed in writing before any work begins.",
-  },
-] as const;
-
-export const tiers = [
-  {
-    name: "Essential",
-    outcome: "Get Found",
-    recommended: false,
-    audience: "For a business that needs to start showing up.",
-    summary:
-      "A fast, clean website with AI-search foundations built in, so search engines and AI finally know you exist.",
-    items: [
-      "Up to four pages",
-      "AI-search and SEO foundations built in",
-      "Fast, mobile-first design",
-      "Enquiry form",
-      "Google Business setup",
-    ],
-  },
-  {
-    name: "Standard",
-    outcome: "Get Booked",
-    recommended: true,
-    audience: "For an established business that wants enquiries and bookings.",
-    summary:
-      "A complete website with individual service pages, online booking and automation, built to turn visitors into enquiries.",
-    items: [
-      "Five to eight pages",
-      "Individual service pages",
-      "Online booking",
-      "Basic automation",
-      "Blog setup",
-      "Everything in Essential",
-    ],
-  },
-  {
-    name: "Premium",
-    outcome: "Get Ahead",
-    recommended: false,
-    audience: "For competitive markets where being found first decides who wins.",
-    summary:
-      "Everything, plus AI automations, advanced optimisation and content that keeps compounding long after launch.",
-    items: [
-      "Everything in Standard",
-      "AI automations (reminders, FAQ chatbot, lead capture)",
-      "Advanced AI-search optimisation",
-      "Content and copywriting",
-      "Galleries and landing pages",
-    ],
   },
 ] as const;
 

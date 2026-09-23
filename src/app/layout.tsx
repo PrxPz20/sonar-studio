@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { Particles } from "@/components/ui/particles";
 import { JsonLd, organizationSchema } from "@/lib/schema";
 import { site } from "@/lib/content";
 
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <JsonLd data={organizationSchema} />
         <SiteHeader />
+        <Particles />
         {children}
         <SiteFooter />
       </body>

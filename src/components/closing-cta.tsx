@@ -18,7 +18,6 @@ export function ClosingCta({
   return (
     <section className="closing-cta">
       <div className="shell closing-grid">
-        <span className="closing-blip" aria-hidden="true" />
         <div>
           <h2>{title}</h2>
           {body && <p>{body}</p>}

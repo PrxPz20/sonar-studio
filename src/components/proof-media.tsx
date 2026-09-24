@@ -66,7 +66,7 @@ export function ProofMedia() {
                 onClick={(event) => openProof(proof, event.currentTarget)}
                 key={proof}
               >
-                <Image className="proof-image" src={image.src} alt={image.alt} width={image.width} height={2338} sizes="(max-width: 767px) 82vw, 50vw" />
+                <Image className="proof-image" src={image.src} alt={image.alt} width={image.width} height={2338} sizes="(max-width: 767px) 92vw, 67vw" />
                 <span className="proof-label">{image.label}</span>
                 <span className="proof-view" aria-hidden="true">View full screenshot ↗</span>
               </button>

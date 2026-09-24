@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AIChatMessage } from "@/components/ai-chat-message";
 import { AIFlip } from "@/components/ai-flip";
+import { AgencySection } from "@/components/agency-section";
 import { ButtonLink } from "@/components/button-link";
 import { ClosingCta } from "@/components/closing-cta";
 import { Faq } from "@/components/faq";
@@ -31,9 +32,15 @@ export default function Home() {
             <div className="button-row"><ButtonLink href="/contact">Get a free teardown</ButtonLink><ButtonLink href="/results" secondary>See the proof</ButtonLink></div>
           </div>
         </div>
+        <a className="hero-scroll-cue" href="#home-content" aria-label="Scroll to explore">
+          <span>Scroll</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 10.5 12 15l5-4.5" />
+          </svg>
+        </a>
       </section>
 
-      <div className="main-content-frame">
+      <div className="main-content-frame" id="home-content">
       <section className="section-deep section-pad">
         <div className="shell shift-grid">
           <h2>Your customers stopped scrolling. Now they just ask.</h2>
@@ -54,14 +61,7 @@ export default function Home() {
 
       <ProcessTimeline />
 
-      <section className="section-dark section-pad">
-        <div className="shell why-grid">
-          <div className="why-copy"><h2>Agency-quality. Without agency prices.</h2><p>Sonar Studio is one specialist, not a chain of account managers. You work directly with the person who designs, builds and optimises your website. That means sharper work, faster turnarounds, and a price that undercuts agencies charging triple for less.</p><div className="button-row"><ButtonLink href="/contact">Start your project</ButtonLink><ButtonLink href="/about" secondary>About Sonar</ButtonLink></div></div>
-          <div className="why-points">
-            {["A direct line to the person building your site", "An AI-search specialist, not a generalist", "Remote and fast — no meetings unless you want them", "A proven result, not a promise"].map((point, index) => <div className="why-point" key={point}><span>0{index + 1}</span><span>{point}</span></div>)}
-          </div>
-        </div>
-      </section>
+      <AgencySection />
 
       <section className="section-deep section-pad">
         <div className="shell faq-layout"><div><h2>Questions, answered.</h2><Link className="text-link" href="/contact">Still have a question? Get in touch<span className="text-link-arrow" aria-hidden="true">→</span></Link></div><Faq items={homeFaqs} /></div>

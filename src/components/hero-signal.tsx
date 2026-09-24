@@ -10,6 +10,8 @@ type SignalApi = {
   readonly progress: number;
 };
 
+const PARTICLE_TRANSITION_PROGRESS = 0.58;
+
 declare global {
   interface Window {
     SonarSignal?: SignalApi;
@@ -28,10 +30,9 @@ export function HeroSignal() {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobile = matchMedia("(max-width: 767px)").matches;
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-    if (reduced || mobile || connection?.saveData) return;
-
-    const frameId = requestAnimationFrame(() => setEnabled(true));
-    return () => cancelAnimationFrame(frameId);
+    const showFinale = reduced || mobile || connection?.saveData;
+    const timer = window.setTimeout(() => showFinale ? setComplete(true) : setEnabled(true), 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -44,12 +45,14 @@ export function HeroSignal() {
     observer.observe(host.current);
     const onVisibility = () => control(document.hidden ? "pause" : "play");
     document.addEventListener("visibilitychange", onVisibility);
+    let retireTimer = 0;
     const finishWatcher = window.setInterval(() => {
       const signal = frame.current?.contentWindow?.SonarSignal;
-      if (!signal || signal.progress < 0.995) return;
+      if (!signal || signal.progress < PARTICLE_TRANSITION_PROGRESS) return;
       finished.current = true;
       signal.pause();
       setComplete(true);
+      retireTimer = window.setTimeout(() => setEnabled(false), 1200);
       window.clearInterval(finishWatcher);
     }, 100);
 
@@ -63,13 +66,14 @@ export function HeroSignal() {
     return () => {
       observer.disconnect();
       window.clearInterval(finishWatcher);
+      window.clearTimeout(retireTimer);
       document.removeEventListener("visibilitychange", onVisibility);
       if (window.SonarHero === api) delete window.SonarHero;
     };
   }, [enabled]);
 
   return (
-    <div className="hero-signal" ref={host} aria-hidden="true">
+    <div className="hero-signal" ref={host} data-complete={complete} aria-hidden="true">
       <div className="signal-fallback"><span /><span /><span /><span /></div>
       {enabled && (
         <iframe
@@ -85,7 +89,7 @@ export function HeroSignal() {
           }}
         />
       )}
-      {complete && <Particles className="hero-finale-particles" density={2.2} />}
+      {complete && <Particles className="hero-finale-particles" density={2.8} />}
     </div>
   );
 }

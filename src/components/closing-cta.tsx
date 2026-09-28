@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import { ButtonLink } from "./button-link";
-import { LoadingRadar } from "./loading-radar";
 
 export function ClosingCta({
   title,
@@ -42,15 +41,22 @@ export function ClosingCta({
         <div className="closing-grid" ref={panel}>
           <div className="closing-content">
             <h2>{title}</h2>
+          </div>
+
+          <div className="closing-trace" aria-hidden="true">
+            <svg viewBox="0 0 1200 128" preserveAspectRatio="none">
+              <path className="closing-trace-base" d="M0 64H252C284 64 288 20 320 20S356 108 388 108 424 64 456 64H1200" />
+              <path className="closing-trace-active" pathLength="1" d="M0 64H252C284 64 288 20 320 20S356 108 388 108 424 64 456 64H1200" />
+              <circle className="closing-trace-blip" cx="456" cy="64" r="5" />
+            </svg>
+          </div>
+
+          <div className={`closing-lower${body ? "" : " closing-lower-actions-only"}`}>
             {body && <p>{body}</p>}
             <div className="button-row">
               <ButtonLink href={primaryHref}>{primary}</ButtonLink>
               {secondary && <ButtonLink href={secondaryHref} secondary>{secondary}</ButtonLink>}
             </div>
-          </div>
-
-          <div className="closing-signal" aria-hidden="true">
-            <LoadingRadar />
           </div>
         </div>
       </div>

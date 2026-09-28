@@ -5,8 +5,8 @@ import { AIFlip } from "@/components/ai-flip";
 import { AgencySection } from "@/components/agency-section";
 import { ButtonLink } from "@/components/button-link";
 import { ClosingCta } from "@/components/closing-cta";
-import { Faq } from "@/components/faq";
 import { HeroSignal } from "@/components/hero-signal";
+import { HomeFaqSection } from "@/components/home-faq-section";
 import { ProcessTimeline } from "@/components/process-timeline";
 import { ProofMedia } from "@/components/proof-media";
 import { homeFaqs } from "@/lib/content";
@@ -63,9 +63,7 @@ export default function Home() {
 
       <AgencySection />
 
-      <section className="section-deep section-pad">
-        <div className="shell faq-layout"><div><h2>Questions, answered.</h2><Link className="text-link" href="/contact">Still have a question? Get in touch<span className="text-link-arrow" aria-hidden="true">→</span></Link></div><Faq items={homeFaqs} /></div>
-      </section>
+      <HomeFaqSection items={homeFaqs} />
 
       <ClosingCta title="Let's make you the one that gets found." body="Send me your details and I'll record you a free three-minute teardown showing exactly where you stand. No obligation, no sales call." secondary="See the results first" />
       </div>

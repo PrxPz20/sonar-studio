@@ -32,7 +32,7 @@ export function ProcessTimeline() {
       const progressLine = progressRef.current;
       if (!section || !progressLine) return;
 
-      const staticLayout = matchMedia("(max-width: 767px), (prefers-reduced-motion: reduce)").matches;
+      const staticLayout = matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (staticLayout) {
         progressLine.style.transform = "scaleY(1)";
         return;
@@ -43,7 +43,9 @@ export function ProcessTimeline() {
       const progress = Math.min(1, Math.max(0, -bounds.top / travel));
       const nextStep = Math.min(steps.length - 1, Math.floor(progress * steps.length));
 
-      progressLine.style.transform = `scaleY(${progress})`;
+      progressLine.style.transform = matchMedia("(max-width: 767px)").matches
+        ? `scaleX(${progress})`
+        : `scaleY(${progress})`;
       setActiveStep((current) => current === nextStep ? current : nextStep);
     };
 

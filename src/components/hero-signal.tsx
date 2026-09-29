@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Particles } from "./ui/particles";
 
 type SignalApi = {
   play(): void;
@@ -50,9 +49,11 @@ export function HeroSignal() {
       const signal = frame.current?.contentWindow?.SonarSignal;
       if (!signal || signal.progress < PARTICLE_TRANSITION_PROGRESS) return;
       finished.current = true;
-      signal.pause();
       setComplete(true);
-      retireTimer = window.setTimeout(() => setEnabled(false), 1200);
+      retireTimer = window.setTimeout(() => {
+        signal.pause();
+        setEnabled(false);
+      }, 1400);
       window.clearInterval(finishWatcher);
     }, 100);
 
@@ -89,7 +90,6 @@ export function HeroSignal() {
           }}
         />
       )}
-      {complete && <Particles className="hero-finale-particles" density={2.8} />}
     </div>
   );
 }

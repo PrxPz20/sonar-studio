@@ -21,7 +21,7 @@ export function ParticleSphereAnimation() {
     if (!context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const pointCount = 1500;
+    const pointCount = window.innerWidth < 768 ? 950 : 1500;
     const goldenAngle = Math.PI * (3 - Math.sqrt(5));
     const points: SpherePoint[] = Array.from({ length: pointCount }, (_, index) => {
       const y = 1 - (index / (pointCount - 1)) * 2;
@@ -95,5 +95,5 @@ export function ParticleSphereAnimation() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="particle-sphere-canvas" />;
+  return <canvas ref={canvasRef} className="particle-sphere-canvas" aria-hidden="true" />;
 }

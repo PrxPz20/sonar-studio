@@ -5,6 +5,7 @@ const aiTools = [
   { name: "Claude", icon: "/brand/claude-icon.svg", iconClass: "" },
   { name: "Gemini", icon: "/brand/gemini-icon.svg", iconClass: "" },
   { name: "Perplexity", icon: "/brand/perplexity-icon.svg", iconClass: "" },
+  { name: "Grok", icon: "/brand/grok-light.svg", iconClass: "ai-flip-icon-grok" },
 ] as const;
 
 export function AIFlip() {
@@ -24,7 +25,7 @@ export function AIFlip() {
           ))}
         </span>
       </span>
-      <span className="sr-only">ChatGPT, Claude, Gemini, or Perplexity</span>
+      <span className="sr-only">ChatGPT, Claude, Gemini, Perplexity, or Grok</span>
     </span>
   );
 }

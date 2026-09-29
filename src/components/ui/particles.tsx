@@ -31,34 +31,49 @@ export function Particles({ className = "site-particles", density = 1 }: Particl
     let height = 0;
     let stars: Star[] = [];
     let frame = 0;
+    let lastTime = 0;
 
     const random = (index: number, offset: number) => {
       const value = Math.sin(index * 12.9898 + offset * 78.233) * 43758.5453;
       return value - Math.floor(value);
     };
 
-    const draw = () => {
-      frame = 0;
+    const draw = (time = 0) => {
       context.clearRect(0, 0, width, height);
       const scroll = reducedMotion.matches ? 0 : window.scrollY;
+      const journey = reducedMotion.matches ? 0 : time * .000024 + scroll * .00034;
 
       for (const star of stars) {
-        const travel = scroll * (0.035 + star.depth * 0.12);
-        const y = ((star.y * height - travel) % height + height) % height;
-        const x = ((star.x * width + travel * 0.025 * star.depth) % width + width) % width;
-        const radius = star.radius * (0.65 + star.depth * 0.55);
+        const depth = ((star.depth - journey * (.72 + star.depth * .35)) % 1 + 1) % 1;
+        const proximity = .34 + (1 - depth) * 1.28;
+        const x = width / 2 + (star.x - .5) * width * proximity;
+        const y = height / 2 + (star.y - .5) * height * proximity;
+        const radius = star.radius * (.48 + (1 - depth) * 1.12);
+        const alpha = star.alpha * (.34 + (1 - depth) * .78);
 
         context.beginPath();
         context.arc(x, y, radius, 0, Math.PI * 2);
         context.fillStyle = star.mint
-          ? `rgba(111, 227, 206, ${star.alpha})`
-          : `rgba(246, 249, 248, ${star.alpha})`;
+          ? `rgba(111, 227, 206, ${alpha})`
+          : `rgba(246, 249, 248, ${alpha})`;
         context.fill();
       }
     };
 
-    const scheduleDraw = () => {
-      if (!frame) frame = window.requestAnimationFrame(draw);
+    const tick = (time: number) => {
+      lastTime = time;
+      draw(time);
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    const updateAnimation = () => {
+      window.cancelAnimationFrame(frame);
+      frame = 0;
+      if (document.hidden || reducedMotion.matches) {
+        draw(reducedMotion.matches ? 0 : lastTime);
+        return;
+      }
+      frame = window.requestAnimationFrame(tick);
     };
 
     const resize = () => {
@@ -83,19 +98,20 @@ export function Particles({ className = "site-particles", density = 1 }: Particl
         alpha: 0.22 + random(index, 5) * 0.5,
         mint: random(index, 6) > 0.88,
       }));
-      draw();
+      draw(lastTime);
     };
 
     resize();
+    updateAnimation();
     window.addEventListener("resize", resize);
-    window.addEventListener("scroll", scheduleDraw, { passive: true });
-    reducedMotion.addEventListener("change", scheduleDraw);
+    document.addEventListener("visibilitychange", updateAnimation);
+    reducedMotion.addEventListener("change", updateAnimation);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
-      window.removeEventListener("scroll", scheduleDraw);
-      reducedMotion.removeEventListener("change", scheduleDraw);
+      document.removeEventListener("visibilitychange", updateAnimation);
+      reducedMotion.removeEventListener("change", updateAnimation);
     };
   }, [density]);
 

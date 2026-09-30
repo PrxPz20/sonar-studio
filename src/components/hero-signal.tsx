@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import BlackHole from "./ui/black-hole";
+import { Particles } from "./ui/particles";
 
 type SignalApi = {
   play(): void;
@@ -75,6 +77,8 @@ export function HeroSignal() {
 
   return (
     <div className="hero-signal" ref={host} data-complete={complete} aria-hidden="true">
+      <div className="hero-black-hole"><BlackHole /></div>
+      {complete && <Particles className="hero-particles" density={1.35} />}
       <div className="signal-fallback"><span /><span /><span /><span /></div>
       {enabled && (
         <iframe

@@ -141,9 +141,20 @@ p { text-wrap: pretty; }
 .hero { position: relative; min-height: 100dvh; display: flex; align-items: center; overflow: hidden; background: transparent; }
 .hero-signal { position: absolute; inset: 0; z-index: 0; }
 .hero-signal[data-complete="true"] { z-index: 2; }
-.signal-frame { position: relative; z-index: 0; width: 100%; height: 100%; border: 0; display: block; opacity: .82; transition: opacity 1.35s cubic-bezier(.16, 1, .3, 1); }
+.hero-black-hole { --black-hole-x: 14%; --black-hole-y: 3%; position: absolute; inset: -8%; z-index: 0; opacity: 0; transform: translate3d(var(--black-hole-x), var(--black-hole-y), 0) rotate(-5deg) scale(.93); transform-origin: 50% 50%; filter: blur(14px); mix-blend-mode: screen; pointer-events: none; will-change: transform, opacity, filter; transition: opacity 1.8s cubic-bezier(.16, 1, .3, 1) 120ms, transform 2.1s cubic-bezier(.16, 1, .3, 1) 120ms, filter 1.5s cubic-bezier(.22, 1, .36, 1) 120ms; }
+.black-hole-art { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; -webkit-mask-image: radial-gradient(ellipse 35% 31% at 50% 50%, #000 0 70%, rgb(0 0 0 / .9) 80%, transparent 100%); mask-image: radial-gradient(ellipse 35% 31% at 50% 50%, #000 0 70%, rgb(0 0 0 / .9) 80%, transparent 100%); }
+.black-hole-art::after { content: ""; position: absolute; inset: 0; z-index: 2; background: linear-gradient(90deg, rgb(0 0 0 / .9) 0%, rgb(0 0 0 / .48) 42%, transparent 70%); }
+.black-hole-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.black-hole-core { animation: black-hole-drift 8s ease-in-out infinite alternate; }
+.black-hole-glow { opacity: .42; filter: blur(16px) saturate(1.12); transform: scale(1.025); animation: black-hole-glow 5s ease-in-out infinite alternate; }
+.hero-signal[data-complete="true"] .hero-black-hole { opacity: .88; transform: translate3d(var(--black-hole-x), var(--black-hole-y), 0) rotate(-5deg) scale(1); filter: blur(0); }
+.hero-particles { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; animation: hero-particles-in 1.8s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes black-hole-drift { from { transform: scale(1.005) translate3d(-.25%, 0, 0); } to { transform: scale(1.018) translate3d(.25%, -.3%, 0); } }
+@keyframes black-hole-glow { from { opacity: .28; transform: scale(1.02); } to { opacity: .5; transform: scale(1.045); } }
+@keyframes hero-particles-in { from { opacity: 0; } to { opacity: .78; } }
+.signal-frame { position: relative; z-index: 2; width: 100%; height: 100%; border: 0; display: block; opacity: .82; transition: opacity 1.35s cubic-bezier(.16, 1, .3, 1); }
 .hero-signal[data-complete="true"] .signal-frame { opacity: 0; }
-.signal-fallback { position: absolute; inset: 0; overflow: hidden; opacity: .72; transition: opacity 700ms cubic-bezier(.22, 1, .36, 1); }
+.signal-fallback { position: absolute; inset: 0; z-index: 1; overflow: hidden; opacity: .72; transition: opacity 700ms cubic-bezier(.22, 1, .36, 1); }
 .hero-signal[data-complete="true"] .signal-fallback { opacity: 0; }
 .signal-fallback::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0 15%, rgb(111 227 206 / .07) 15% 15.08%, transparent 15.08% 46%, rgb(111 227 206 / .04) 46% 46.08%, transparent 46.08% 77%, rgb(111 227 206 / .07) 77% 77.08%, transparent 77.08%); }
 .signal-fallback span { position: absolute; left: 5%; right: 5%; height: 1px; background: rgb(111 227 206 / .13); }
@@ -732,6 +743,7 @@ p { text-wrap: pretty; }
   .contact-form, .form-success { padding: 24px; }
   .footer-main, .footer-bottom { width: 100%; }
   .hero-copy { font-size: 1.125rem; }
+  .hero-black-hole { --black-hole-x: 20%; --black-hole-y: -24%; }
   .hero-content { width: auto; margin-inline: var(--page-margin); padding: 72px var(--page-padding); }
   .hero-scroll-cue { bottom: 20px; }
   .hero h1 { font-size: clamp(2.7rem, 12.25vw, 4.4rem); text-wrap: wrap; }
@@ -844,6 +856,8 @@ p { text-wrap: pretty; }
   .ai-chat-user, .ai-chat-assistant { transition: none !important; }
   .ai-orbit-arm { animation: none !important; transform: rotate(var(--orbit-angle)); }
   .ai-orbit-icon-shell { animation: none !important; transform: translate(-50%, -50%) rotate(var(--counter-angle)); }
+  .hero-black-hole, .hero-signal[data-complete="true"] .hero-black-hole { transform: translate3d(var(--black-hole-x), var(--black-hole-y), 0) rotate(-5deg); filter: none; }
+  .black-hole-core, .black-hole-glow { animation: none; }
   .process-timeline { height: auto; padding-block: var(--section-space); }
   .process-timeline-sticky { position: static; min-height: 0; display: block; overflow: visible; padding: 0; }
   .process-timeline-grid { grid-template-columns: 1fr; gap: 48px; }

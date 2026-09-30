@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <JsonLd data={organizationSchema} />
         <SiteHeader />
-        <Particles density={1.9} />
+        <Particles density={2.5} />
         {children}
         <SiteFooter />
       </body>

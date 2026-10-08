@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react";
 import { ButtonLink } from "./button-link";
 
 const points = [
-  "A direct line to the person building your site",
-  "An AI-search specialist, not a generalist",
-  "Remote and fast — no meetings unless you want them",
-  "A proven result, not a promise",
+  { before: "A ", value: "direct line", after: " to the person building your site" },
+  { before: "An ", value: "AI-search specialist", after: ", not a generalist" },
+  { before: "Remote and fast — ", value: "no meetings unless you want them", after: "" },
+  { before: "A ", value: "proven result", after: ", not a promise" },
 ] as const;
 
 export function AgencySection() {
@@ -45,9 +45,11 @@ export function AgencySection() {
 
           <ol className="agency-points">
             {points.map((point, index) => (
-              <li className="agency-point" key={point}>
+              <li className="agency-point" key={point.value}>
                 <span className="agency-number">0{index + 1}</span>
-                <span className="agency-statement">{point}</span>
+                <span className="agency-statement">
+                  {point.before}<span className="agency-value">{point.value}</span>{point.after}
+                </span>
               </li>
             ))}
           </ol>

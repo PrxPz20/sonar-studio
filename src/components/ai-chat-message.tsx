@@ -90,7 +90,7 @@ export function AIChatMessage() {
 
     const start = () => {
       message.dataset.motion = "visible";
-      typeAnswer(responses[0].answer, 1450);
+      typeAnswer(responses[0].answer, 700);
     };
 
     if (!("IntersectionObserver" in window)) {
@@ -102,9 +102,9 @@ export function AIChatMessage() {
       if (!entry.isIntersecting) return;
       observer.disconnect();
       start();
-    }, { threshold: 0.3 });
+    }, { threshold: 0.08, rootMargin: "0px 0px 20% 0px" });
 
-    observer.observe(message);
+    observer.observe(message.closest("section") ?? message);
     return () => {
       observer.disconnect();
       clearTyping();

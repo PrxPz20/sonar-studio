@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowUpRightIcon, MenuIcon, ScanSearchIcon, XIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { Brand } from "./brand";
 import { navigation } from "@/lib/content";
 
@@ -10,9 +11,14 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  const activeIndex = navigation.findIndex(({ href }) => pathname === href || pathname.startsWith(`${href}/`));
+  const highlightIndex = hoveredIndex ?? activeIndex;
+  const navigationStyle = { "--nav-index": Math.max(highlightIndex, 0) } as CSSProperties;
 
   function open() {
     dialogRef.current?.showModal();
@@ -30,7 +36,7 @@ export function SiteHeader() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      setScrolled(window.scrollY > 48);
+      setScrolled(window.scrollY > 32);
     };
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(update);
@@ -45,52 +51,72 @@ export function SiteHeader() {
 
   return (
     <header className={`site-header${scrolled ? " is-condensed" : ""}`}>
-      <div className="header-inner">
+      <div className="navigation-shell">
         <Brand />
-        <nav className="desktop-nav" aria-label="Primary navigation">
-          {navigation.map((item) => (
+        <nav
+          className="navigation-track"
+          aria-label="Primary navigation"
+          data-highlight-visible={highlightIndex >= 0}
+          style={navigationStyle}
+          onPointerLeave={() => setHoveredIndex(null)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setHoveredIndex(null);
+          }}
+        >
+          <span className="navigation-highlight" aria-hidden="true" />
+          {navigation.map((item, index) => (
             <Link
               key={item.href}
+              className="navigation-link"
               href={item.href}
-              aria-current={pathname === item.href ? "page" : undefined}
+              aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}
+              onPointerEnter={() => setHoveredIndex(index)}
+              onFocus={() => setHoveredIndex(index)}
             >
               {item.label}
             </Link>
           ))}
         </nav>
-        <Link className="header-cta" href="/contact">Get a free teardown</Link>
+        <Link className="navigation-cta" href="/contact">
+          <span>Free teardown</span>
+          <ScanSearchIcon aria-hidden="true" strokeWidth={1.8} />
+        </Link>
         <button
           ref={menuButtonRef}
-          className="menu-button"
+          className="navigation-toggle"
           type="button"
           aria-label="Open menu"
           aria-expanded={menuOpen}
           aria-controls="mobile-navigation"
           onClick={open}
         >
-          <span aria-hidden="true" />
-          <span aria-hidden="true" />
+          <MenuIcon aria-hidden="true" />
         </button>
       </div>
-      <dialog id="mobile-navigation" className="mobile-menu" ref={dialogRef} aria-label="Mobile navigation" onClose={() => {
+      <dialog id="mobile-navigation" className="navigation-dialog" ref={dialogRef} aria-label="Mobile navigation" onClose={() => {
         setMenuOpen(false);
         menuButtonRef.current?.focus();
       }} onClick={(event) => {
         if (event.target === dialogRef.current) close();
       }}>
-        <div className="mobile-menu-inner">
-          <div className="mobile-menu-top">
+        <div className="navigation-dialog-inner">
+          <div className="navigation-dialog-top">
             <Brand />
-            <button ref={closeButtonRef} type="button" onClick={close} aria-label="Close menu" className="menu-close">Close</button>
+            <button ref={closeButtonRef} type="button" onClick={close} aria-label="Close menu" className="navigation-close"><XIcon aria-hidden="true" /></button>
           </div>
           <nav aria-label="Mobile navigation">
-            {navigation.map((item) => (
-              <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>
-                {item.label}<span aria-hidden="true">↗</span>
+            {navigation.map((item, index) => (
+              <Link key={item.href} href={item.href} aria-current={pathname === item.href || pathname.startsWith(`${item.href}/`) ? "page" : undefined}>
+                <span className="navigation-dialog-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span>{item.label}</span>
+                <ArrowUpRightIcon aria-hidden="true" />
               </Link>
             ))}
           </nav>
-          <Link className="button button-primary" href="/contact">Get a free teardown <span aria-hidden="true">→</span></Link>
+          <Link className="navigation-dialog-cta" href="/contact">
+            <span><small>Not sure where to start?</small>Get a free teardown</span>
+            <ScanSearchIcon aria-hidden="true" strokeWidth={1.8} />
+          </Link>
         </div>
       </dialog>
     </header>

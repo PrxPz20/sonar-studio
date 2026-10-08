@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import BlackHole from "./ui/black-hole";
 import { Particles } from "./ui/particles";
 
@@ -27,23 +27,26 @@ export function HeroSignal() {
   const [enabled, setEnabled] = useState(false);
   const [complete, setComplete] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const mobile = matchMedia("(max-width: 767px)").matches;
     const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
     const showFinale = reduced || mobile || connection?.saveData;
-    const timer = window.setTimeout(() => showFinale ? setComplete(true) : setEnabled(true), 0);
-    return () => window.clearTimeout(timer);
+    let active = true;
+    queueMicrotask(() => {
+      if (!active) return;
+      if (showFinale) setComplete(true);
+      else setEnabled(true);
+    });
+    return () => { active = false; };
   }, []);
 
   useEffect(() => {
-    if (!enabled || !host.current) return;
+    if (!enabled) return;
     const control = (method: "play" | "pause") => {
       if (method === "play" && finished.current) return;
       frame.current?.contentWindow?.SonarSignal?.[method]();
     };
-    const observer = new IntersectionObserver(([entry]) => control(entry.isIntersecting ? "play" : "pause"), { threshold: 0.05 });
-    observer.observe(host.current);
     const onVisibility = () => control(document.hidden ? "pause" : "play");
     document.addEventListener("visibilitychange", onVisibility);
     let retireTimer = 0;
@@ -67,7 +70,6 @@ export function HeroSignal() {
     };
     window.SonarHero = api;
     return () => {
-      observer.disconnect();
       window.clearInterval(finishWatcher);
       window.clearTimeout(retireTimer);
       document.removeEventListener("visibilitychange", onVisibility);
@@ -87,6 +89,7 @@ export function HeroSignal() {
           src="/visuals/sonar-signal/Sonar_Signal_Animation_dc.html"
           title=""
           tabIndex={-1}
+          loading="eager"
           onLoad={() => {
             const signal = frame.current?.contentWindow?.SonarSignal;
             if (finished.current) signal?.pause();

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRightIcon, MenuIcon, ScanSearchIcon, XIcon } from "lucide-react";
+import { ArrowUpRightIcon, MenuIcon, XIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { Brand } from "./brand";
@@ -77,9 +77,8 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <Link className="navigation-cta" href="/contact">
+        <Link className="button button-primary navigation-cta" href="/contact">
           <span>Free teardown</span>
-          <ScanSearchIcon aria-hidden="true" strokeWidth={1.8} />
         </Link>
         <button
           ref={menuButtonRef}
@@ -113,9 +112,8 @@ export function SiteHeader() {
               </Link>
             ))}
           </nav>
-          <Link className="navigation-dialog-cta" href="/contact">
+          <Link className="button button-primary navigation-dialog-cta" href="/contact">
             <span><small>Not sure where to start?</small>Get a free teardown</span>
-            <ScanSearchIcon aria-hidden="true" strokeWidth={1.8} />
           </Link>
         </div>
       </dialog>

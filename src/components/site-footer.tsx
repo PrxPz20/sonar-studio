@@ -53,7 +53,7 @@ export function SiteFooter() {
           <div className="footer-focus">
             <div className="footer-brand"><Brand /></div>
             <h2>Get found when your customers ask AI.</h2>
-            <ButtonLink href="/contact" icon="signal">Get a free teardown</ButtonLink>
+            <ButtonLink href="/contact">Get a free teardown</ButtonLink>
           </div>
 
           <div className="footer-link-area">

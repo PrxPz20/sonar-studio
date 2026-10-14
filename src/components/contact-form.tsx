@@ -2,7 +2,6 @@
 
 import { FormEvent, type FocusEvent, useState } from "react";
 import Link from "next/link";
-import { LoaderCircleIcon, SendIcon } from "lucide-react";
 import { contactSchema, type ContactIntent } from "@/lib/contact-schema";
 
 type Errors = Record<string, string>;
@@ -113,7 +112,6 @@ export function ContactForm({ selectedIntent }: { selectedIntent?: ContactIntent
           {status === "error" && <p className="form-error">Something went wrong. Email me directly at <a href="mailto:hello@sonarstudio.net">hello@sonarstudio.net</a> and I'll pick it up straight away.</p>}
           <button className="submit-button" type="submit" disabled={status === "sending"}>
             <span className="button-label">{status === "sending" ? "Sending your details" : selectedIntent === "Project enquiry" ? "Send project enquiry" : "Send and get my teardown"}</span>
-            <span className="button-icon-shell" aria-hidden="true">{status === "sending" ? <LoaderCircleIcon className="button-icon button-icon-spin" strokeWidth={1.8} /> : <SendIcon className="button-icon" strokeWidth={1.8} />}</span>
           </button>
           <p className="form-privacy">Your details are only used to respond to your enquiry. <Link href="/privacy">Privacy</Link>.</p>
         </form>

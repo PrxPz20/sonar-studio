@@ -270,7 +270,8 @@ class Component extends DCLogic {
     const loop = () => {
       this.raf = requestAnimationFrame(loop);
       const now = performance.now();
-      const dt = Math.min(0.05, (now - this.last) / 1000);
+      // Keep the finale on wall time when offscreen frames are throttled.
+      const dt = Math.max(0, (now - this.last) / 1000);
       this.last = now;
       const cfg = this.cfg();
       if (!this.manual) {

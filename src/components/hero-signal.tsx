@@ -26,6 +26,9 @@ export function HeroSignal() {
   const finished = useRef(false);
   const [enabled, setEnabled] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [showBlackHole, setShowBlackHole] = useState(false);
+  const [blackHoleReady, setBlackHoleReady] = useState(false);
+  const [constrained, setConstrained] = useState(false);
 
   useLayoutEffect(() => {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -35,7 +38,11 @@ export function HeroSignal() {
     let active = true;
     queueMicrotask(() => {
       if (!active) return;
-      if (showFinale) setComplete(true);
+      if (showFinale) {
+        setConstrained(true);
+        setComplete(true);
+        setShowBlackHole(true);
+      }
       else setEnabled(true);
     });
     return () => { active = false; };
@@ -50,15 +57,17 @@ export function HeroSignal() {
     const onVisibility = () => control(document.hidden ? "pause" : "play");
     document.addEventListener("visibilitychange", onVisibility);
     let retireTimer = 0;
+    let revealTimer = 0;
     const finishWatcher = window.setInterval(() => {
       const signal = frame.current?.contentWindow?.SonarSignal;
       if (!signal || signal.progress < PARTICLE_TRANSITION_PROGRESS) return;
       finished.current = true;
       setComplete(true);
+      revealTimer = window.setTimeout(() => setShowBlackHole(true), 520);
       retireTimer = window.setTimeout(() => {
         signal.pause();
         setEnabled(false);
-      }, 1400);
+      }, 720);
       window.clearInterval(finishWatcher);
     }, 100);
 
@@ -72,14 +81,38 @@ export function HeroSignal() {
     return () => {
       window.clearInterval(finishWatcher);
       window.clearTimeout(retireTimer);
+      window.clearTimeout(revealTimer);
       document.removeEventListener("visibilitychange", onVisibility);
       if (window.SonarHero === api) delete window.SonarHero;
     };
   }, [enabled]);
 
   return (
-    <div className="hero-signal" ref={host} data-complete={complete} aria-hidden="true">
-      <div className="hero-black-hole"><BlackHole /></div>
+    <div
+      className="hero-signal"
+      ref={host}
+      data-complete={complete}
+      aria-hidden="true"
+    >
+      {showBlackHole && (
+        <div className="hero-black-hole" data-ready={blackHoleReady}>
+          <BlackHole
+            className="black-hole-art"
+            focus={constrained ? [0.7, 0.56] : [0.78, 0.576]}
+            fov={51}
+            roll={-20}
+            scrim="left"
+            scrimStrength={0.9}
+            starBrightness={0}
+            steps={constrained ? 160 : 200}
+            resolution={constrained ? 0.42 : 0.5}
+            maxDpr={1}
+            maxFps={20}
+            paused={constrained}
+            onReady={() => setBlackHoleReady(true)}
+          />
+        </div>
+      )}
       {complete && <Particles className="hero-particles" density={1.35} />}
       <div className="signal-fallback"><span /><span /><span /><span /></div>
       {enabled && (
